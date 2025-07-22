@@ -111,7 +111,7 @@ void dfs(Trie *trie,int x,int y,int d) {
 
 	word[d++]=let;
 
-	if(trie->mark && d>=4) {
+	if(trie->mark && d>=3) {
 		word[d]='\0';
 		if(Boggle_WordFind(words,nwords,word)==-1) {
 			Boggle_WordAdd(&words,&nwords,word);
@@ -131,7 +131,7 @@ void dfs(Trie *trie,int x,int y,int d) {
 		trie=trie->next['U'-'A'];
 		if(trie!=NULL) {
 			word[d++]='U';
-			if(trie->mark && d>=4) {
+			if(trie->mark && d>=3) {
 				word[d]='\0';
 				if(Boggle_WordFind(words,nwords,word)==-1) {
 					Boggle_WordAdd(&words,&nwords,word);
@@ -192,6 +192,7 @@ int main(void) {
 
 	printf("> ");
 	while((rlen=getline(&line,&llen,stdin))!=-1) {
+		char f[256],w[256],d[1024];
 		char *p=strchr(line,'\n');
 		if(p) *p='\0';
 		trim(line);
@@ -208,6 +209,16 @@ int main(void) {
 				printf("\n");
 			} else if(!strcasecmp(line,".score")) {
 				printf("your score is %d.\n",score);
+			} else if(sscanf(line,".define %255s",f)) {
+				FILE *fin=fopen("cswd.txt","r");
+				trim(f);
+				while((fscanf(fin,"%255[^\t]\t%1023[^\n]\n",w,d)==2)) {
+					if(!strcasecmp(f,w)) {
+						printf("%s\n",d);
+						break;
+					}
+				}
+				fclose(fin);
 			} else if(!strcasecmp(line,".quit")) {
 				break;
 			}
@@ -221,7 +232,7 @@ int main(void) {
 					left--;
 
 					size_t len=strlen(words[pos]);
-					if(len==4) points=1;
+					if(len==3 || len==4) points=1;
 					else if(len==5) points=2;
 					else if(len==6) points=3;
 					else if(len==7) points=5;
@@ -234,6 +245,11 @@ int main(void) {
 			}
 		}
 		printf("> ");
+
+		free(line);
+		line=NULL;
+		llen=0;
+		rlen=0;
 	}
 
 	Boggle_WordFree(&words,&nwords);
