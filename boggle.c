@@ -24,7 +24,7 @@ char *dice[]={
 	"HLNNRZ",
 };
 
-char board[17]="QATSFEWXENXXRXXX";
+char board[17];
 bool graph[16];
 char **words=NULL;
 size_t nwords=0;
@@ -73,7 +73,7 @@ void shuffle(char *dice[]) {
 	}
 }
 
-void initBoard(char board[]) {
+void initBoard(char board[],char *dice[]) {
 	int k=0;
 	for(int j=0;j<4;j++) {
 		for(int i=0;i<4;i++) {
@@ -153,8 +153,8 @@ int main(void) {
 
 	srand(time(NULL));
 
-	//shuffle(dice);
-	//initBoard(board);
+	shuffle(dice);
+	initBoard(board,dice);
 
 	Trie *trie=Trie_New();
 
