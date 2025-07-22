@@ -201,7 +201,7 @@ int main(void) {
 			if(!strcasecmp(line,".board")) {
 				printBoard(board);
 			} else if(!strcasecmp(line,".left")) {
-				printf("%zd words left.\n",left);
+				printf("%zd of %zd words left.\n",left,nwords);
 			} else if(!strcasecmp(line,".list")) {
 				for(size_t i=0;i<nwords;i++) {
 					if(flags[i]) printf("%s ",words[i]);
