@@ -7,7 +7,7 @@ int main(void) {
 	Trie *trie=Trie_New();
 	char line[256];
 
-	FILE *fin=fopen("../../../csw/csw.txt","r");
+	FILE *fin=fopen("csw.txt","r");
 	while(fgets(line,256,fin)) {
 		char *p=strchr(line,'\n');
 		if(p) *p='\0';
@@ -17,6 +17,7 @@ int main(void) {
 
 	Trie_Walk(trie,-1);
 
+	Trie_Free(&trie);
 
 	return 0;
 }
